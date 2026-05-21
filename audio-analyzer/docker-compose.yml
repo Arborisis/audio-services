@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  audio-analyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: arborisis-audio-analyzer
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./tmp:/tmp/analyzer
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
