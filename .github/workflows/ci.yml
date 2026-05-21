@@ -55,6 +55,8 @@ jobs:
 
       - name: Run Audio Analyzer tests
         working-directory: ./audio-analyzer
+        env:
+          PYTHONPATH: .
         run: pytest -v
 
   docker-build-check:
