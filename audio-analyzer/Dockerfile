@@ -15,10 +15,11 @@ RUN git clone --depth 1 https://github.com/kahst/BirdNET-Analyzer.git /opt/birdn
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Railway build depuis le root du repo, donc on utilise les chemins relatifs
+COPY audio-analyzer/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/ ./app/
+COPY audio-analyzer/app/ ./app/
 
 # Create non-root user
 RUN useradd -m -u 1000 analyzer && \
