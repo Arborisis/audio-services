@@ -1,5 +1,10 @@
 FROM python:3.11-slim
 
+# Configurer pip pour éviter les timeouts sur les gros packages (TensorFlow, etc.)
+ENV PIP_DEFAULT_TIMEOUT=300
+ENV PIP_RETRIES=10
+RUN pip install --upgrade pip
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
@@ -10,14 +15,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install BirdNET-Analyzer from source (lightweight model download on first run)
+# Utiliser --prefer-binary pour éviter de compiler depuis les sources
 RUN git clone --depth 1 https://github.com/kahst/BirdNET-Analyzer.git /opt/birdnet && \
-    pip install --no-cache-dir -e /opt/birdnet
+    pip install --no-cache-dir --prefer-binary -e /opt/birdnet
 
 WORKDIR /app
 
 # Railway build depuis le root du repo, donc on utilise les chemins relatifs
 COPY audio-analyzer/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --prefer-binary -r requirements.txt
 
 COPY audio-analyzer/app/ ./app/
 
