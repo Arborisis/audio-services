@@ -1,13 +1,13 @@
-import librosa
-import numpy as np
-
 from app.core.logger import get_logger
 
 logger = get_logger(__name__)
 
 
 class QualityAnalyzer:
-    def analyze(self, y: np.ndarray, sr: int, features: dict) -> dict:
+    def analyze(self, y, sr: int, features: dict) -> dict:
+        import librosa
+        import numpy as np
+
         peak = np.max(np.abs(y))
         rms = np.mean(librosa.feature.rms(y=y)[0])
 

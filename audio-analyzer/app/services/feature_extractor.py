@@ -2,9 +2,6 @@ import json
 import os
 from typing import Any
 
-import librosa
-import numpy as np
-
 from app.core.logger import get_logger
 from app.services.r2_storage import R2Storage
 
@@ -17,6 +14,8 @@ N_FFT = 2048
 
 
 def _json_safe(value: Any) -> Any:
+    import numpy as np
+
     if isinstance(value, dict):
         return {str(k): _json_safe(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -33,6 +32,9 @@ class FeatureExtractor:
         self.storage = storage
 
     def extract_and_upload(self, local_path: str, sound_id: int, metadata: dict[str, Any]) -> tuple[dict[str, Any], str]:
+        import librosa
+        import numpy as np
+
         # Load at target SR to reduce data size and speed up all downstream processing
         y, sr = librosa.load(local_path, sr=TARGET_SR, mono=True)
         duration = metadata.get("duration_seconds", librosa.get_duration(y=y, sr=sr))

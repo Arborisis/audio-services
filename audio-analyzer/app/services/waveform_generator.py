@@ -1,9 +1,6 @@
 import json
 import os
 
-import librosa
-import numpy as np
-
 from app.core.logger import get_logger
 from app.services.r2_storage import R2Storage
 
@@ -17,6 +14,9 @@ class WaveformGenerator:
         self.storage = storage
 
     def generate_and_upload(self, local_path: str, sound_id: int, duration: float) -> str:
+        import librosa
+        import numpy as np
+
         y, sr = librosa.load(local_path, sr=None, mono=True)
 
         target_resolution = DEFAULT_RESOLUTION

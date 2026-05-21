@@ -1,13 +1,5 @@
 import os
 
-import librosa
-import librosa.display
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import numpy as np
-from PIL import Image
-
 from app.core.logger import get_logger
 from app.services.r2_storage import R2Storage
 
@@ -24,6 +16,14 @@ class SpectrogramGenerator:
         self.storage = storage
 
     def generate_and_upload(self, local_path: str, sound_id: int) -> str:
+        import librosa
+        import librosa.display
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        import numpy as np
+        from PIL import Image
+
         y, sr = librosa.load(local_path, sr=22050, mono=True)
 
         fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT))
