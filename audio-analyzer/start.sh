@@ -19,5 +19,9 @@ echo ""
 echo "Démarrage du serveur sur le port 8000..."
 echo ""
 
+# Railway fournit le port via la variable d'environnement PORT
+PORT=${PORT:-8000}
+echo "Port: $PORT"
+
 # Démarrer uvicorn avec 1 seul worker pour économiser la mémoire
-exec uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1 --log-level info
+exec uvicorn app.main:app --host 0.0.0.0 --port "$PORT" --workers 1 --log-level info
