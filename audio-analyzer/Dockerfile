@@ -20,12 +20,12 @@ RUN git clone --depth 1 https://github.com/kahst/BirdNET-Analyzer.git /opt/birdn
 
 WORKDIR /app
 
-# Railway build depuis le root du repo
-COPY audio-analyzer/requirements.txt .
+# Copy application files
+COPY requirements.txt .
 RUN pip install --no-cache-dir --prefer-binary -r requirements.txt
 
-COPY audio-analyzer/app/ ./app/
-COPY audio-analyzer/start.sh ./start.sh
+COPY app/ ./app/
+COPY start.sh ./start.sh
 RUN chmod +x start.sh
 
 # Utiliser root pour éviter les problèmes de permission sur Railway
