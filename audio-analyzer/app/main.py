@@ -7,6 +7,10 @@ from app.routers import analyze, health
 
 configure_logging(settings.log_level)
 
+import logging
+logger = logging.getLogger(__name__)
+logger.info(f"Analyzer secret configured: length={len(settings.analyzer_secret)}, prefix={settings.analyzer_secret[:10]}")
+
 app = FastAPI(
     title="Arborisis Audio Analyzer",
     description="Audio analysis service for Arborisis — waveform, spectrogram, features, BirdNET.",
